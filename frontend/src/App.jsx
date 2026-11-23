@@ -75,7 +75,7 @@ function App() {
             <nav className="fixed top-0 left-0 right-0 z-50 nav-blur border-b border-white/5">
                 <div className="max-w-4xl mx-auto px-6 h-14 flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                        <span className="text-accent font-semibold text-sm tracking-wide">ContentGuard</span>
+                        <span className="text-accent font-semibold text-sm tracking-wide">Vigil</span>
                         <span className="text-[10px] text-slate-500 font-mono bg-white/5 px-2 py-0.5 rounded">v2</span>
                     </div>
                     <div className="flex gap-1">

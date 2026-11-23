@@ -41,7 +41,7 @@ setup_venv() {
 
 select_cloud_provider() {
     echo ""
-    echo "  ContentGuard requires AWS Bedrock (Claude) for classification"
+    echo "  Vigil requires AWS Bedrock (Claude) for classification"
     echo "  and Redis for job queuing."
     echo ""
     echo "  1) Configure AWS (Bedrock access + optional Comprehend)"
@@ -60,8 +60,8 @@ setup_aws() {
     read -p "AWS Region [us-east-1]: " AWS_REGION
     AWS_REGION=${AWS_REGION:-us-east-1}
 
-    ROLE_NAME="ContentGuard-AppRole"
-    POLICY_NAME="ContentGuard-BedrockAccess"
+    ROLE_NAME="Vigil-AppRole"
+    POLICY_NAME="Vigil-BedrockAccess"
 
     TRUST_POLICY="{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":\"arn:aws:iam::${AWS_ACCOUNT_ID}:root\"},\"Action\":\"sts:AssumeRole\"}]}"
 
@@ -107,7 +107,7 @@ check_redis() {
     else
         echo ""
         echo "  WARNING: Redis is not running."
-        echo "  ContentGuard needs Redis for job queuing."
+        echo "  Vigil needs Redis for job queuing."
         echo "  Start with: redis-server &"
         echo "  Or use: docker compose up (includes Redis)"
     fi
@@ -116,7 +116,7 @@ check_redis() {
 run_app() {
     echo ""
     echo "═══════════════════════════════════════════════════════════════"
-    echo "  Starting ContentGuard..."
+    echo "  Starting Vigil..."
     echo "  API:      http://localhost:5050"
     echo "  Frontend: http://localhost:3000"
     echo "═══════════════════════════════════════════════════════════════"
@@ -135,7 +135,7 @@ run_app() {
 main() {
     echo ""
     echo "╔═══════════════════════════════════════════════════════════════╗"
-    echo "║            ContentGuard — Setup & Run                        ║"
+    echo "║            Vigil — Setup & Run                        ║"
     echo "╚═══════════════════════════════════════════════════════════════╝"
     echo ""
     detect_os

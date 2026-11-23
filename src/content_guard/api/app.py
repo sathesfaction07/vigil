@@ -178,7 +178,7 @@ def get_result(job_id: str):
 
 def create_app() -> Flask:
     setup_logging(settings.log_level)
-    logger.info("ContentGuard API starting")
+    logger.info("Vigil API starting")
     return app
 
 

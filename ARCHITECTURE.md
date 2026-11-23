@@ -1,8 +1,8 @@
-# ContentGuard — Technical Architecture
+# Vigil — Technical Architecture
 
 ## Overview
 
-ContentGuard is an AI-powered content compliance pre-screening tool that scans product listings across multiple marketplaces, detects policy-violating content using multilingual keyword matching and LLM-based reasoning (AWS Bedrock Claude), and provides explainable, audit-ready classification decisions via a real-time streaming interface.
+Vigil is an AI-powered content compliance pre-screening tool that scans product listings across multiple marketplaces, detects policy-violating content using multilingual keyword matching and LLM-based reasoning (AWS Bedrock Claude), and provides explainable, audit-ready classification decisions via a real-time streaming interface.
 
 **Design principle:** Advisory-only. All final enforcement decisions require human review. The AI augments — never replaces — human judgment.
 

@@ -1,4 +1,4 @@
-# ContentGuard
+# Vigil
 
 Scans product listings across marketplaces, flags policy-violating content using multilingual keyword matching, entity detection, and LLM-based reasoning (Bedrock Claude), and hands an explainable verdict to a human reviewer. Supports multimodal classification (product images alongside text), batch CSV workflows, and configurable enrichment backends. Advisory-only — never auto-enforces.
 
@@ -8,7 +8,7 @@ Scans product listings across marketplaces, flags policy-violating content using
 
 An e-commerce catalog with millions of listings across 10+ countries. Some violate content policies — restricted language, wrong age targeting, deceptive descriptions in various languages, unicode tricks to evade keyword filters. Manually reviewing each takes ~7 minutes. At scale, that's thousands of reviewer-hours per week. Worse: keyword lists are finite. A new violation pattern in Thai or a Cyrillic brand-fuzzing attempt bypasses lists that were built for English.
 
-ContentGuard combines three detection layers — keyword matching, entity detection, and LLM reasoning — so violations get caught regardless of whether someone anticipated the specific pattern.
+Vigil combines three detection layers — keyword matching, entity detection, and LLM reasoning — so violations get caught regardless of whether someone anticipated the specific pattern.
 
 ---
 
@@ -64,7 +64,7 @@ Client → Flask API → Redis Queue → Worker(s) → Result
 ## Project Structure
 
 ```
-content-guard/
+vigil/
 ├── src/content_guard/
 │   ├── api/app.py              Endpoints (analyze, batch, CSV, stream, health)
 │   ├── config.py               Settings (enricher, multimodal, Redis, Bedrock)

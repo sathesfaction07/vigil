@@ -1,0 +1,32 @@
+services:
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 3
+
+  api:
+    build: .
+    ports:
+      - "5050:5050"
+    environment:
+      - CG_REDIS_URL=redis://redis:6379
+      - CG_LOG_LEVEL=INFO
+    depends_on:
+      redis:
+        condition: service_healthy
+
+  worker:
+    build: .
+    command: python -m content_guard.queue.worker
+    environment:
+      - CG_REDIS_URL=redis://redis:6379
+      - CG_LOG_LEVEL=INFO
+      - AWS_DEFAULT_REGION=us-east-1
+    depends_on:
+      redis:
+        condition: service_healthy

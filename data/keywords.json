@@ -1,0 +1,34 @@
+{
+    "en": {
+        "red": ["explicit", "adult only", "18+", "xxx", "nsfw", "prohibited", "banned substance", "controlled item"],
+        "green": ["family friendly", "all ages", "educational", "certified safe", "child safe"]
+    },
+    "de": {
+        "red": ["explizit", "nur für erwachsene", "ab 18", "verboten"],
+        "green": ["familienfreundlich", "für alle altersgruppen", "kindersicher"]
+    },
+    "ja": {
+        "red": ["成人向け", "18禁", "アダルト", "禁止"],
+        "green": ["全年齢", "ファミリー向け", "子供安全"]
+    },
+    "fr": {
+        "red": ["explicite", "adultes seulement", "interdit", "substance contrôlée"],
+        "green": ["tout public", "familial", "sécurité enfant"]
+    },
+    "es": {
+        "red": ["explícito", "solo adultos", "prohibido", "sustancia controlada"],
+        "green": ["apto para todos", "familiar", "seguro para niños"]
+    },
+    "hi": {
+        "red": ["वयस्क", "प्रतिबंधित", "निषिद्ध"],
+        "green": ["परिवार के अनुकूल", "बच्चों के लिए सुरक्षित"]
+    },
+    "ar": {
+        "red": ["للبالغين فقط", "محظور", "ممنوع"],
+        "green": ["مناسب لجميع الأعمار", "آمن للأطفال"]
+    },
+    "ko": {
+        "red": ["성인용", "19금", "금지"],
+        "green": ["전체이용가", "어린이안전"]
+    }
+}

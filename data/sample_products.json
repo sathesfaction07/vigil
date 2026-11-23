@@ -1,0 +1,59 @@
+[
+    {
+        "product_id": "SKU-001",
+        "title": "Educational Building Blocks for Kids Ages 3-8",
+        "brand": "LearnPlay",
+        "description": "Colorful building blocks designed for children. Certified safe, non-toxic materials. Promotes creativity and fine motor skills development.",
+        "bullet_points": [
+            "100 pieces in assorted colors",
+            "ASTM F963 certified - child safe",
+            "Non-toxic ABS plastic",
+            "Suitable for ages 3 and up",
+            "Family friendly educational toy"
+        ],
+        "attributes": {"age_range": "3-8 years", "material": "ABS Plastic", "certification": "ASTM F963"},
+        "marketplace": "US"
+    },
+    {
+        "product_id": "SKU-002",
+        "title": "Premium Vitamins & Health Supplements - Adult Formula",
+        "brand": "VitaHealth",
+        "description": "Daily multivitamin supplement for adults. Contains essential vitamins and minerals for overall health support.",
+        "bullet_points": [
+            "30-day supply",
+            "Adult only - not for children",
+            "Contains regulated ingredients",
+            "FDA compliant facility"
+        ],
+        "attributes": {"target_age": "18+", "category": "health_supplements"},
+        "marketplace": "US"
+    },
+    {
+        "product_id": "SKU-003",
+        "title": "Kunstdruck Wandbild für Erwachsene - Abstrakte Kunst",
+        "brand": "ArtHaus",
+        "description": "Hochwertiger Kunstdruck. Nur für erwachsene Käufer gedacht. Abstrakte Darstellung.",
+        "bullet_points": [
+            "Leinwanddruck 60x90cm",
+            "Nur für erwachsene",
+            "Premium Qualität"
+        ],
+        "attributes": {"size": "60x90cm", "material": "Canvas"},
+        "marketplace": "DE"
+    },
+    {
+        "product_id": "SKU-004",
+        "title": "Wireless Bluetooth Headphones - Professional Studio Monitor",
+        "brand": "SoundTech",
+        "description": "High-fidelity wireless headphones for music production and casual listening. Active noise cancellation with 40-hour battery.",
+        "bullet_points": [
+            "40mm drivers with aptX HD",
+            "40-hour battery life",
+            "Active noise cancellation",
+            "Foldable design with carry case",
+            "Compatible with all devices"
+        ],
+        "attributes": {"connectivity": "Bluetooth 5.3", "driver_size": "40mm"},
+        "marketplace": "US"
+    }
+]

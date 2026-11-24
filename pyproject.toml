@@ -53,3 +53,8 @@ source = ["src"]
 "src/content_guard/core/prompts.py" = ["E501"]
 "tests/conftest.py" = ["E501"]
 "tests/unit/test_classifier.py" = ["E501"]
+
+[tool.hatch.build.targets.wheel]
+# The distribution is named "vigil" but the import package keeps its original name, so hatchling
+# cannot find it by name and must be told where it is.
+packages = ["src/content_guard"]

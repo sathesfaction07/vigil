@@ -1,3 +1,5 @@
+from typing import Any
+
 from .base import DetectedEntity, EntityEnricher
 from .comprehend import ComprehendEnricher
 from .google_nlp import GoogleNLPEnricher
@@ -11,7 +13,7 @@ ENRICHERS = {
 }
 
 
-def get_enricher(name: str, **kwargs) -> EntityEnricher | None:
+def get_enricher(name: str, **kwargs: Any) -> EntityEnricher | None:
     if name == "none":
         return None
     cls = ENRICHERS.get(name)

@@ -1,4 +1,5 @@
 import logging
+from typing import Any, cast
 
 import boto3
 
@@ -8,10 +9,10 @@ logger = logging.getLogger("content_guard")
 
 
 class ComprehendEnricher(EntityEnricher):
-    def __init__(self, region: str = "us-east-1", **kwargs):
+    def __init__(self, region: str = "us-east-1", **kwargs: Any) -> None:
         self.client = boto3.client("comprehend", region_name=region)
 
-    def detect_entities(self, product_data: dict) -> list[DetectedEntity]:
+    def detect_entities(self, product_data: dict[str, Any]) -> list[DetectedEntity]:
         text = self._combine_text(product_data)
         if not text:
             return []
@@ -45,12 +46,12 @@ class ComprehendEnricher(EntityEnricher):
             response = self.client.detect_dominant_language(Text=text[:300])
             languages = response.get("Languages", [])
             if languages:
-                return languages[0]["LanguageCode"]
+                return cast(str, languages[0]["LanguageCode"])
         except Exception:
             pass
         return "en"
 
-    def _combine_text(self, product_data: dict) -> str:
+    def _combine_text(self, product_data: dict[str, Any]) -> str:
         parts = []
         for field in ["title", "description", "bullet_points", "brand"]:
             value = product_data.get(field, "")

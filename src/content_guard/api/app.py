@@ -1,8 +1,10 @@
 import csv
 import io
 import json
+from collections.abc import Iterator
 
 from flask import Flask, Response, jsonify, request
+from flask.typing import ResponseReturnValue
 
 from ..config import settings
 from ..observability import logger, metrics, setup_logging
@@ -13,12 +15,12 @@ queue = JobQueue()
 
 
 @app.before_request
-def count_request():
+def count_request() -> None:
     metrics.increment("http.requests")
 
 
 @app.route("/health")
-def health():
+def health() -> ResponseReturnValue:
     redis_ok = queue.health_check()
     checks = {"redis": redis_ok}
     status = "healthy" if all(checks.values()) else "degraded"
@@ -35,12 +37,12 @@ def health():
 
 
 @app.route("/metrics")
-def get_metrics():
+def get_metrics() -> ResponseReturnValue:
     return jsonify(metrics.summary())
 
 
 @app.route("/api/analyze", methods=["POST"])
-def analyze():
+def analyze() -> ResponseReturnValue:
     data = request.get_json()
     if not data or "product_id" not in data:
         return jsonify({"error": "product_id is required"}), 400
@@ -55,7 +57,7 @@ def analyze():
 
 
 @app.route("/api/batch", methods=["POST"])
-def batch_analyze():
+def batch_analyze() -> ResponseReturnValue:
     data = request.get_json()
     if not data or "product_ids" not in data:
         return jsonify({"error": "product_ids is required"}), 400
@@ -75,7 +77,7 @@ def batch_analyze():
 
 
 @app.route("/api/batch/csv", methods=["POST"])
-def batch_csv():
+def batch_csv() -> ResponseReturnValue:
     if "file" not in request.files:
         return jsonify({"error": "CSV file required (field name: 'file')"}), 400
 
@@ -97,7 +99,7 @@ def batch_csv():
 
 
 @app.route("/api/results/csv")
-def export_csv():
+def export_csv() -> ResponseReturnValue:
     job_ids = request.args.get("job_ids", "").split(",")
     if not job_ids or job_ids == [""]:
         return jsonify({"error": "job_ids query param required (comma-separated)"}), 400
@@ -140,14 +142,15 @@ def export_csv():
 
 
 @app.route("/api/stream/<job_id>")
-def stream(job_id: str):
-    def event_stream():
+def stream(job_id: str) -> ResponseReturnValue:
+    def event_stream() -> Iterator[str]:
         pubsub = queue.redis.pubsub()
         channel = f"contentguard:progress:{job_id}"
         pubsub.subscribe(channel)
 
         try:
-            for message in pubsub.listen():
+            # redis-py's PubSub ships without type annotations
+            for message in pubsub.listen():  # type: ignore[no-untyped-call]
                 if message["type"] == "message":
                     data = message["data"]
                     yield f"data: {data}\n\n"
@@ -155,14 +158,14 @@ def stream(job_id: str):
                     if parsed.get("type") in ("complete", "failed"):
                         break
         finally:
-            pubsub.unsubscribe(channel)
+            pubsub.unsubscribe(channel)  # type: ignore[no-untyped-call]
             pubsub.close()
 
     return Response(event_stream(), mimetype="text/event-stream")
 
 
 @app.route("/api/result/<job_id>")
-def get_result(job_id: str):
+def get_result(job_id: str) -> ResponseReturnValue:
     status = queue.get_status(job_id)
     if status == "unknown":
         return jsonify({"error": "Job not found"}), 404

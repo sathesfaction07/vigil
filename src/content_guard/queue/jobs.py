@@ -2,7 +2,7 @@ import json
 import uuid
 from dataclasses import asdict, dataclass
 from enum import Enum
-from typing import Any
+from typing import Any, cast
 
 import redis
 
@@ -59,7 +59,8 @@ class JobQueue:
         if result is None:
             return None
         _, job_data = result
-        return AnalysisJob.from_json(job_data)
+        # decode_responses=True: Redis returns str, though its type stubs allow bytes
+        return AnalysisJob.from_json(cast(str, job_data))
 
     def publish_progress(self, job_id: str, message: str) -> None:
         channel = f"{PROGRESS_PREFIX}{job_id}"
@@ -84,11 +85,11 @@ class JobQueue:
         key = f"{RESULT_PREFIX}{job_id}"
         data = self.redis.get(key)
         if data:
-            return json.loads(data)
+            return cast(dict[str, Any], json.loads(data))
         return None
 
     def get_status(self, job_id: str) -> str:
-        return self.redis.get(f"{RESULT_PREFIX}{job_id}:status") or "unknown"
+        return cast(str | None, self.redis.get(f"{RESULT_PREFIX}{job_id}:status")) or "unknown"
 
     def health_check(self) -> bool:
         try:

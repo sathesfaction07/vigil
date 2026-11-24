@@ -53,8 +53,8 @@ class Metrics:
 metrics = Metrics()
 
 
-def timed(metric_name: str) -> Callable:
-    def decorator(func: Callable) -> Callable:
+def timed(metric_name: str) -> Callable[[Callable[..., Any]], Callable[..., Any]]:
+    def decorator(func: Callable[..., Any]) -> Callable[..., Any]:
         @wraps(func)
         def sync_wrapper(*args: Any, **kwargs: Any) -> Any:
             start = time.perf_counter()

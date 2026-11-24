@@ -1,5 +1,6 @@
 import signal
 from dataclasses import asdict
+from types import FrameType
 
 import boto3
 
@@ -9,7 +10,7 @@ from ..core.keywords import KeywordEngine
 from ..enrichment import get_enricher
 from ..observability import logger, metrics, setup_logging
 from ..services.catalog import CatalogService
-from .jobs import JobQueue
+from .jobs import AnalysisJob, JobQueue
 
 
 class Worker:
@@ -47,7 +48,7 @@ class Worker:
                 self.queue.mark_failed(job.job_id, str(e))
                 metrics.increment("worker.job_failed")
 
-    def _process(self, job) -> None:
+    def _process(self, job: AnalysisJob) -> None:
         self.queue.publish_progress(job.job_id, "Fetching catalog data...")
         product_data = self.catalog.fetch_product(job.product_id, job.marketplaces or None)
 
@@ -100,7 +101,7 @@ class Worker:
             f"({result.confidence_pct}% {result.confidence_level})"
         )
 
-    def _shutdown(self, signum, frame) -> None:
+    def _shutdown(self, signum: int, frame: FrameType | None) -> None:
         logger.info("Shutdown signal received, finishing current job...")
         self.running = False
 

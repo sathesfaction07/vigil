@@ -2,7 +2,7 @@ import json
 import re
 import time
 from dataclasses import dataclass, field
-from typing import Any
+from typing import Any, cast
 
 from ..config import settings
 from ..enrichment.base import DetectedEntity
@@ -65,7 +65,7 @@ class Classifier:
     def _invoke_model(
         self, system_prompt: str, user_prompt: str, image_urls: list[str] | None = None
     ) -> dict[str, Any]:
-        content: list[dict] = []
+        content: list[dict[str, Any]] = []
         if image_urls:
             for url in image_urls[:4]:
                 content.append({"type": "image", "source": {"type": "url", "url": url}})
@@ -112,7 +112,7 @@ class Classifier:
     def _parse_response(self, text: str) -> dict[str, Any]:
         # Tier 1: Standard JSON parse
         try:
-            return json.loads(text)
+            return cast(dict[str, Any], json.loads(text))
         except json.JSONDecodeError:
             pass
 
@@ -120,7 +120,7 @@ class Classifier:
         json_match = re.search(r"\{[\s\S]*\}", text)
         if json_match:
             try:
-                return json.loads(json_match.group())
+                return cast(dict[str, Any], json.loads(json_match.group()))
             except json.JSONDecodeError:
                 pass
 

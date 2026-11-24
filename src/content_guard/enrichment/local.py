@@ -1,5 +1,6 @@
 import logging
 import re
+from typing import Any, cast
 
 from .base import DetectedEntity, EntityEnricher
 
@@ -19,7 +20,7 @@ PII_PATTERNS = [
 
 
 class LocalEnricher(EntityEnricher):
-    def detect_entities(self, product_data: dict) -> list[DetectedEntity]:
+    def detect_entities(self, product_data: dict[str, Any]) -> list[DetectedEntity]:
         entities = []
 
         for field in ["title", "description", "bullet_points"]:
@@ -46,6 +47,6 @@ class LocalEnricher(EntityEnricher):
         try:
             from langdetect import detect
 
-            return detect(text[:500])
+            return cast(str, detect(text[:500]))
         except Exception:
             return "en"

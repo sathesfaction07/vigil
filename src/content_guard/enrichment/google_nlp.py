@@ -1,4 +1,5 @@
 import logging
+from typing import Any
 
 from google.cloud import language_v1
 
@@ -8,10 +9,10 @@ logger = logging.getLogger("content_guard")
 
 
 class GoogleNLPEnricher(EntityEnricher):
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         self.client = language_v1.LanguageServiceClient()
 
-    def detect_entities(self, product_data: dict) -> list[DetectedEntity]:
+    def detect_entities(self, product_data: dict[str, Any]) -> list[DetectedEntity]:
         text = self._combine_text(product_data)
         if not text:
             return []
@@ -52,7 +53,7 @@ class GoogleNLPEnricher(EntityEnricher):
             pass
         return "en"
 
-    def _combine_text(self, product_data: dict) -> str:
+    def _combine_text(self, product_data: dict[str, Any]) -> str:
         parts = []
         for field in ["title", "description", "bullet_points", "brand"]:
             value = product_data.get(field, "")

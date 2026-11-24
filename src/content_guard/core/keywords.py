@@ -2,7 +2,7 @@ import json
 import unicodedata
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any
+from typing import Any, cast
 
 from ..observability import logger, metrics, timed
 
@@ -27,7 +27,7 @@ class KeywordEngine:
             logger.warning(f"Keywords file not found at {path}, using empty set")
             return {}
         with open(path, encoding="utf-8") as f:
-            return json.load(f)
+            return cast(dict[str, dict[str, list[str]]], json.load(f))
 
     @timed("keyword_detection")
     def detect(self, product_data: dict[str, Any]) -> list[KeywordMatch]:

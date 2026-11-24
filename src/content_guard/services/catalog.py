@@ -1,3 +1,5 @@
+from typing import Any, cast
+
 import httpx
 
 from ..config import settings
@@ -12,12 +14,14 @@ class CatalogService:
         self.timeout = httpx.Timeout(10.0, connect=5.0)
 
     @timed("catalog_fetch")
-    def fetch_product(self, product_id: str, marketplaces: list[str] | None = None) -> dict:
+    def fetch_product(
+        self, product_id: str, marketplaces: list[str] | None = None
+    ) -> dict[str, Any]:
         if marketplaces is None:
             marketplaces = MARKETPLACE_PRIORITY[: settings.max_marketplaces]
 
-        results: dict[str, dict] = {}
-        primary_data: dict = {}
+        results: dict[str, dict[str, Any]] = {}
+        primary_data: dict[str, Any] = {}
 
         for mp in marketplaces:
             try:
@@ -49,11 +53,11 @@ class CatalogService:
         primary_data["marketplaces_found"] = len(results)
         return primary_data
 
-    def _fetch_marketplace(self, product_id: str, marketplace: str) -> dict | None:
+    def _fetch_marketplace(self, product_id: str, marketplace: str) -> dict[str, Any] | None:
         url = f"{self.base_url}/products/{product_id}"
         params = {"marketplace": marketplace}
 
         with httpx.Client(timeout=self.timeout) as client:
             response = client.get(url, params=params)
             response.raise_for_status()
-            return response.json()
+            return cast(dict[str, Any] | None, response.json())
